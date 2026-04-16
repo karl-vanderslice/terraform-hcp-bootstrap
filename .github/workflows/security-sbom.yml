@@ -1,6 +1,7 @@
+---
 name: security-sbom
 
-on:
+"on":
   pull_request:
   push:
     branches: [main, master]
@@ -25,7 +26,7 @@ jobs:
       - name: Checkov scan
         run: nix develop --command checkov -d . --soft-fail
       - name: OSV vulnerability scan
-        uses: google/osv-scanner-action@v1
+        uses: google/osv-scanner-action@v2.3.5
         with:
           scan-args: |-
             -r
