@@ -1,0 +1,11 @@
+.terraform/
+.terraform.lock.hcl
+*.tfplan
+terraform.tfstate
+terraform.tfstate.*
+*.auto.tfvars
+terraform.tfvars
+result
+.pre-commit-config.yaml
+.direnv/
+!.envrc
