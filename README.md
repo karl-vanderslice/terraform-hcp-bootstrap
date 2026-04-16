@@ -61,6 +61,53 @@ terraform {
 
 This backend pattern is state storage only. Workspaces are pinned to `execution_mode = "local"`.
 
+## Encrypted State Snapshots
+
+Use the repo task below to save encrypted local state snapshots with the
+existing YubiKey-backed `age` setup managed through `nix-config`:
+
+```bash
+just snapshot-hcp-bootstrap-state
+```
+
+What this does:
+
+- captures `terraform output -json` and `terraform state pull`
+- compresses both files with `zstd`
+- encrypts the compressed payloads with `sops` using `age` recipients
+- writes artifacts under `artifacts/hcp-bootstrap-state/`
+- keeps only the newest two snapshot generations
+- removes raw and unencrypted compressed intermediates after encryption
+
+Default recipient behavior:
+
+- uses `~/.config/sops/age/yubikey.txt` by default
+- this aligns with the existing `nix-config` SOPS/YubiKey workflow
+- if the recipient file does not exist, run `sops-yubikey-init`
+- if auto-detection cannot infer a recipient, set `STATE_SOPS_AGE_RECIPIENTS`
+
+Defaults can be overridden via environment variables:
+
+- `STATE_COMPRESSION_CODEC` (default: `zstd`)
+- `STATE_COMPRESSION_LEVEL` (default: `19`)
+- `STATE_AGE_RECIPIENT` or `STATE_AGE_RECIPIENT_FILE`
+- `STATE_SOPS_AGE_RECIPIENTS` (explicit `age1...` recipient list)
+- `STATE_SNAPSHOT_DIR`
+- `STATE_SNAPSHOT_RETENTION` (default: `2`)
+
+Snapshot files:
+
+- `state-<UTC timestamp>.tfstate.zst.age`
+- `outputs-<UTC timestamp>.json.zst.age`
+- `snapshot-<UTC timestamp>.json`
+
+Decryption examples:
+
+```bash
+sops --decrypt --input-type binary --output-type binary state-<timestamp>.tfstate.zst.age | zstd -d -o -
+sops --decrypt --input-type binary --output-type binary outputs-<timestamp>.json.zst.age | zstd -d -o -
+```
+
 ## Notes
 
 - `create_tfe_organization` defaults to `false` because many accounts already have a shared org.

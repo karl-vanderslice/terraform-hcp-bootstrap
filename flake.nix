@@ -96,7 +96,10 @@
           yamllint
           zensical
           jq
-          bitwarden-cli
+          zstd
+          age
+          sops
+          age-plugin-yubikey
         ];
       };
     });

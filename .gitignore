@@ -1,5 +1,5 @@
 .terraform/
-.terraform.lock.hcl
+!.terraform.lock.hcl
 *.tfplan
 terraform.tfstate
 terraform.tfstate.*
@@ -9,3 +9,4 @@ result
 .pre-commit-config.yaml
 .direnv/
 !.envrc
+artifacts/
