@@ -1,6 +1,6 @@
 # terraform-hcp-bootstrap
 
-Bootstrap HCP and HCP Terraform resources for the Ezra platform:
+Bootstrap HCP and HCP Terraform resources:
 
 - HCP project isolation (`hcp_project`) and optional free-tier Vault bootstrap (`hcp_hvn` + `hcp_vault_cluster`)
 - HCP Terraform organization/project/workspaces for backend-state-only usage
@@ -38,16 +38,17 @@ terraform apply
 
 ## Configure Other Terraform Projects To Use This Backend
 
-1. Ensure the target workspace exists in HCP Terraform (this repo creates them for `terraform-*` repos listed in `terraform_backend_workspace_names`).
+1. Ensure the target workspace exists in HCP Terraform (this repo creates them
+   for workspace names listed in `terraform_backend_workspace_names`).
 2. In the target project, add a cloud backend block:
 
 ```hcl
 terraform {
   cloud {
-    organization = "karl-vanderslice-org"
+    organization = "your-org-name"
 
     workspaces {
-      name = "terraform-cloudflare-docs-sites"
+      name = "your-workspace-name"
     }
   }
 }
@@ -56,7 +57,7 @@ terraform {
 1. Authenticate the CLI using one of:
    - `export TFE_TOKEN=...`
    - `terraform login`
-2. Run `terraform init` in the target repo to migrate or initialize state.
+1. Run `terraform init` in the target repo to migrate or initialize state.
 
 This backend pattern is state storage only. Workspaces are pinned to `execution_mode = "local"`.
 
