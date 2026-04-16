@@ -157,6 +157,7 @@ variable "terraform_backend_workspace_names" {
   default = [
     "terraform-cloudflare-api-token-bootstrap",
     "terraform-cloudflare-docs-sites",
-    "terraform-hcp-bootstrap"
+    "terraform-hcp-bootstrap",
+    "terraform-vault-bootstrap"
   ]
 }
