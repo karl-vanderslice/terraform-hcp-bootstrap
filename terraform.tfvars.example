@@ -1,0 +1,21 @@
+# HCP project + Vault bootstrap
+create_hcp_project     = false
+hcp_project_name       = "ezra"
+enable_hcp_vault       = true
+hcp_hvn_cloud_provider = "aws"
+hcp_hvn_region         = "us-east-1"
+hcp_hvn_cidr_block     = "172.25.16.0/20"
+hcp_vault_cluster_id   = "ezra-vault"
+hcp_vault_tier         = "dev"
+
+# HCP Terraform backend-state bootstrap
+create_tfe_organization = false
+tfe_organization_name   = "karl-vanderslice-org"
+# tfe_organization_email = "ops@example.com"
+
+tfe_project_name        = "terraform-backend-state"
+terraform_backend_workspace_names = [
+  "terraform-cloudflare-api-token-bootstrap",
+  "terraform-cloudflare-docs-sites",
+  "terraform-hcp-bootstrap"
+]
