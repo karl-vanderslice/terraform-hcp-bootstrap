@@ -155,6 +155,7 @@ variable "terraform_backend_workspace_names" {
   description = "Workspace names to create for terraform-* repositories using backend state only."
   type        = list(string)
   default = [
+    "terraform-aws-bootstrap",
     "terraform-cloudflare-api-token-bootstrap",
     "terraform-cloudflare-docs-sites",
     "terraform-hcp-bootstrap",

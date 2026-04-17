@@ -15,6 +15,7 @@ tfe_organization_name   = "karl-vanderslice-org"
 
 tfe_project_name        = "terraform-backend-state"
 terraform_backend_workspace_names = [
+  "terraform-aws-bootstrap",
   "terraform-cloudflare-api-token-bootstrap",
   "terraform-cloudflare-docs-sites",
   "terraform-hcp-bootstrap",
