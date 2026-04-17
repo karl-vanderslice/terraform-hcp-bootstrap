@@ -31,5 +31,8 @@ pre-commit:
 install-hooks:
   nix develop -c true
 
+terraform-docs:
+  nix develop -c terraform-docs markdown table --output-file README.md --output-mode inject .
+
 snapshot-hcp-bootstrap-state:
   nix develop -c bash scripts/state/save-encrypted-state.sh
