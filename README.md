@@ -70,6 +70,23 @@ existing YubiKey-backed `age` setup managed through `nix-config`:
 just snapshot-hcp-bootstrap-state
 ```
 
+To push local state files to the AWS ops bucket as a versioned backup layer,
+run:
+
+```bash
+just backup-hcp-bootstrap-state
+```
+
+Backup wrapper behavior:
+
+- checks for `terraform.tfstate` and `terraform.tfstate.backup`
+- resolves `OPS_BUCKET_NAME` from env first, then Bitwarden `AWS Bootstrap Outputs`
+  when `BW_SESSION` is available
+- uploads with server-side encryption (AES256)
+- uses deterministic object keys:
+  `terraform/bootstrap-state/terraform-hcp-bootstrap/YYYY/MM/DD/<timestamp>/<host>/<file>`
+- writes a `.sha256` companion object per uploaded state file
+
 What this does:
 
 - captures `terraform output -json` and `terraform state pull`

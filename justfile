@@ -36,3 +36,6 @@ terraform-docs:
 
 snapshot-hcp-bootstrap-state:
   nix develop -c bash scripts/state/save-encrypted-state.sh
+
+backup-hcp-bootstrap-state:
+  nix run .#backup-hcp-bootstrap-state

@@ -84,10 +84,32 @@
         formatting = treefmtEval.config.build.check self;
       };
 
+      apps.backup-hcp-bootstrap-state = let
+        backupWrapper = pkgs.writeShellApplication {
+          name = "backup-hcp-bootstrap-state";
+          runtimeInputs = [
+            pkgs.awscli2
+            pkgs.jq
+            pkgs.coreutils
+            pkgs.gnugrep
+            pkgs.gawk
+            pkgs.findutils
+          ];
+          text = ''
+            exec bash ./scripts/state/backup-local-state-to-ops-bucket.sh
+          '';
+        };
+      in {
+        type = "app";
+        program = "${backupWrapper}/bin/backup-hcp-bootstrap-state";
+      };
+
       devShells.default = pkgs.mkShell {
         inherit (preCommitCheck) shellHook;
         packages = with pkgs; [
+          awscli2
           terraform
+          vault
           terraform-docs
           checkov
           gitleaks
