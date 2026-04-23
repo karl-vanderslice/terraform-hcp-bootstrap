@@ -6,6 +6,7 @@ repo_name = "karl-vanderslice/terraform-hcp-bootstrap"
 repo_url = "https://github.com/karl-vanderslice/terraform-hcp-bootstrap"
 docs_dir = "docs"
 site_dir = "site"
+extra_css = ["stylesheets/extra.css"]
 
 nav = [
   { Home = "index.md" },
@@ -14,3 +15,6 @@ nav = [
 
 [project.theme]
 variant = "modern"
+
+[project.theme.palette]
+scheme = "slate"
