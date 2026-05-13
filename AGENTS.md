@@ -1,18 +1,20 @@
 # AGENTS
 
-## Purpose
+## Snapshot
 
-This repository bootstraps HCP and HCP Terraform resources for backend and
-platform setup.
+- Purpose: this repo bootstraps HCP and HCP Terraform resources for backend
+  and platform setup.
+- Load order: load this file first. Repo-local prompt/skill overlays are not
+  present yet.
+- Primary docs: `README.md`, `docs/index.md`, and generated `terraform-docs`
+  reference blocks.
 
-## Documentation Standards
+## Working Rules
 
-- Keep `README.md` as the GitHub entrypoint and `docs/index.md` as the docs
-  landing page.
-- Do not add duplicate overview pages such as `docs/README.md`.
 - Keep Terraform variable, output, and module descriptions complete enough for
   `terraform-docs`; generated Markdown is the canonical reference surface.
 - Prefer `just` targets in docs when they exist instead of duplicating raw
   Terraform and shell commands.
 - Separate backend usage, authentication, and recovery workflows from the
   generated Terraform reference tables.
+- Do not add duplicate overview pages such as `docs/README.md`.
