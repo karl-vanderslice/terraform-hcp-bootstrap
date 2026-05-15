@@ -29,20 +29,12 @@ resolve_ops_bucket() {
     return 0
   fi
 
-  if command -v bw >/dev/null 2>&1 && [[ -n "${BW_SESSION:-}" ]]; then
-    local item_json
-    item_json="$(bw list items --search "AWS Bootstrap Outputs" --session "${BW_SESSION}" 2>/dev/null || true)"
-    if [[ -n "${item_json}" ]]; then
-      local bucket_from_bw
-      bucket_from_bw="$(printf "%s" "${item_json}" | jq -r '
-        .[0].fields // []
-        | map(select(.name == "OPS_BUCKET_NAME" and (.value // "" | length > 0)) | .value)
-        | .[0] // empty
-      ' 2>/dev/null || true)"
-      if [[ -n "${bucket_from_bw}" ]]; then
-        printf "%s" "${bucket_from_bw}"
-        return 0
-      fi
+  if command -v rbw >/dev/null 2>&1; then
+    local bucket_from_rbw
+    bucket_from_rbw="$(rbw get --field OPS_BUCKET_NAME "AWS Bootstrap Outputs" 2>/dev/null || true)"
+    if [[ -n "${bucket_from_rbw}" ]]; then
+      printf "%s" "${bucket_from_rbw}"
+      return 0
     fi
   fi
 
@@ -60,7 +52,7 @@ resolve_ops_bucket() {
 
 OPS_BUCKET_NAME="$(resolve_ops_bucket || true)"
 if [[ -z "${OPS_BUCKET_NAME}" ]]; then
-  echo "Could not resolve OPS_BUCKET_NAME. Set OPS_BUCKET_NAME or export BW_SESSION before running backup." >&2
+  echo "Could not resolve OPS_BUCKET_NAME. Set OPS_BUCKET_NAME or ensure rbw is unlocked before running backup." >&2
   exit 1
 fi
 

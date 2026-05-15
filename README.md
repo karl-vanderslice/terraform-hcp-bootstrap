@@ -80,8 +80,8 @@ just backup-hcp-bootstrap-state
 Backup wrapper behavior:
 
 - checks for `terraform.tfstate` and `terraform.tfstate.backup`
-- resolves `OPS_BUCKET_NAME` from env first, then Bitwarden `AWS Bootstrap Outputs`
-  when `BW_SESSION` is available
+- resolves `OPS_BUCKET_NAME` from env first, then rbw item `AWS Bootstrap Outputs`
+  when rbw is installed and unlocked
 - uploads with server-side encryption (AES256)
 - uses deterministic object keys:
   `terraform/bootstrap-state/terraform-hcp-bootstrap/YYYY/MM/DD/<timestamp>/<host>/<file>`
